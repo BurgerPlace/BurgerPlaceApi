@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using BurgerPlace.Models;
 using BurgerPlace.Models.Database;
 
 namespace BurgerPlace.Context
@@ -436,10 +437,6 @@ namespace BurgerPlace.Context
                     .HasColumnName("last_login")
                     .HasDefaultValueSql("current_timestamp()");
 
-                entity.Property(e => e.Login)
-                    .HasMaxLength(32)
-                    .HasColumnName("login");
-
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .HasColumnName("name");
@@ -455,6 +452,10 @@ namespace BurgerPlace.Context
                 entity.Property(e => e.Surname)
                     .HasMaxLength(50)
                     .HasColumnName("surname");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(32)
+                    .HasColumnName("username");
 
                 entity.HasOne(d => d.Restaurant)
                     .WithMany(p => p.Users)
