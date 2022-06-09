@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BurgerPlace.Models
+namespace BurgerPlace.Models.Database
 {
     public partial class OrderProduct
     {

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BurgerPlace.Models
+namespace BurgerPlace.Models.Database
 {
     /// <summary>
-    /// Table to store products in set
+    /// Table for storing ingredients in products
     /// </summary>
-    public partial class SetProduct
+    public partial class ProductIngredient
     {
         public uint Id { get; set; }
-        public uint? SetId { get; set; }
         public uint? ProductId { get; set; }
+        public uint? IngredientId { get; set; }
 
+        public virtual Ingredient? Ingredient { get; set; }
         public virtual Product? Product { get; set; }
-        public virtual Set? Set { get; set; }
     }
 }

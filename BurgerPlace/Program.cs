@@ -12,6 +12,10 @@ namespace BurgerPlace
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.ConfigureSwaggerGen(options =>
+            {
+                options.IgnoreObsoleteActions();
+            })
 
             var app = builder.Build();
 
@@ -21,6 +25,14 @@ namespace BurgerPlace
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(configurePolicy =>
+            {
+                // CORS only for testing purposes
+                configurePolicy.AllowAnyHeader();
+                configurePolicy.AllowAnyMethod();
+                configurePolicy.AllowAnyOrigin();
+            });
 
             app.UseHttpsRedirection();
 

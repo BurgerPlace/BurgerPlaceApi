@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using BurgerPlace.Models;
+using BurgerPlace.Models.Database;
 
 namespace BurgerPlace.Context
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BurgerPlace.Models
+namespace BurgerPlace.Models.Database
 {
     /// <summary>
     /// Table that will store products and all informations connected with it
