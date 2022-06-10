@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Input\" />
-    <Folder Include="Models\Output\" />
+    <Folder Include="Models\Request\" />
+    <Folder Include="Models\Response\" />
   </ItemGroup>
 
 </Project>
