@@ -18,12 +18,13 @@ namespace BurgerPlace.Controllers
     public class TokenController : ControllerBase
     {
         IConfiguration _config;
-        private string secret { get; set; }
+        private string _secret { get; set; }
         public TokenController(IConfiguration config)
         {
             _config = config;
-            secret = _config.GetValue<string>("Secrets:JWTSecret");
-        }
+            _secret = _config.GetValue<string>("Secrets:JWTSecret");
+        }        
+
         private static bool IsValidUser(LoginRequest request)
         {
             using (var context = new BurgerPlaceContext())
@@ -59,7 +60,34 @@ namespace BurgerPlace.Controllers
             var header = new JwtHeader(
                 new SigningCredentials(
                     new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(secret)),
+                        Encoding.UTF8.GetBytes(_secret)),
+                        SecurityAlgorithms.HmacSha256));
+
+            var payload = new JwtPayload(claims);
+
+            var token = new JwtSecurityToken(header, payload);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        // static variety of token
+        public static string GenerateToken(User user, string _secret)
+        {
+            string role = "user";
+            if (user.IsRoot) role = "root";
+            var claims = new List<Claim> {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Role, role),
+            new Claim(JwtRegisteredClaimNames.Exp,
+            new DateTimeOffset(DateTime.Now)
+                   .ToUnixTimeSeconds().ToString())
+            };
+
+            var header = new JwtHeader(
+                new SigningCredentials(
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(_secret)),
                         SecurityAlgorithms.HmacSha256));
 
             var payload = new JwtPayload(claims);

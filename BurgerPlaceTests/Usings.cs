@@ -1,0 +1,12 @@
+global using Xunit;
+global using BurgerPlace.Models.Request;
+global using BurgerPlace.Models.Database;
+global using BurgerPlace.Controllers;
+global using AutoMapper;
+global using Microsoft.Extensions.Configuration;
+global using Faker;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Newtonsoft.Json;
+global using System.Text;
+global using System.Net;
