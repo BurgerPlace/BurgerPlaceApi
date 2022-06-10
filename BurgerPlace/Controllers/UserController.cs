@@ -33,12 +33,12 @@ namespace BurgerPlace.Controllers
             using (var context = new BurgerPlaceContext())
             {
                 // Assertion that this user already doesn't exists in database
-                var user = await context.Users.Where(i => i.Username == registerRequest.username).FirstOrDefaultAsync();
+                var user = await context.Users.Where(i => i.Username == registerRequest.username || i.Email == registerRequest.email).FirstOrDefaultAsync();
                 if (user != null)
                 {
                     return BadRequest(new
                     {
-                        message = "User with this username already exists"
+                        message = "User with this username or email already exists"
                     });
                 }
                 // Creating new user based on given informations

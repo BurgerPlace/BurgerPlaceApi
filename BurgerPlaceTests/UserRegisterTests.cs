@@ -15,7 +15,7 @@ namespace BurgerPlaceTests
         {
             // Arrange
             RegisterRequest registerRequest = new RegisterRequest();
-            registerRequest.email = "example@example.org";
+            registerRequest.email = Faker.StringFaker.AlphaNumeric(8)+"@gmail.com";
             registerRequest.name = "John";
             registerRequest.surname = "John";
             // generate username
@@ -29,6 +29,30 @@ namespace BurgerPlaceTests
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
         }
+        [Fact]
+        public async void Should_Fail_RegisterOnEmailInDB()
+        {
+            // Arrange
+            RegisterRequest registerRequest = new RegisterRequest();
+            registerRequest.email = "example@example.org";
+            registerRequest.name = "John";
+            registerRequest.surname = "John";
+            // generate username
+            registerRequest.username = Faker.StringFaker.AlphaNumeric(10);
+            registerRequest.password = "12345678";
+            var json = JsonConvert.SerializeObject(registerRequest);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            // Act
+            // Register user with this data
+            await _client.PostAsync("api/User/register", data);
+            // Register same user with different username but same email
+            registerRequest.username = Faker.StringFaker.AlphaNumeric(10);
+            json = JsonConvert.SerializeObject(registerRequest);
+            data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/User/register", data);
+            // Assert
+            Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
+        }
         
         [Fact]
         public async void Should_Register_And_Login()
@@ -37,7 +61,7 @@ namespace BurgerPlaceTests
             var username = Faker.StringFaker.AlphaNumeric(10);
             var password = Faker.StringFaker.AlphaNumeric(8);
             RegisterRequest registerRequest = new RegisterRequest();
-            registerRequest.email = "example@example.org";
+            registerRequest.email = Faker.StringFaker.AlphaNumeric(8) + "@gmail.com";
             registerRequest.name = "Johny";
             registerRequest.surname = "Test";
             registerRequest.username = username;
