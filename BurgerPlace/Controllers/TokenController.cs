@@ -1,6 +1,7 @@
 ﻿using BurgerPlace.Context;
 using BurgerPlace.Models;
 using BurgerPlace.Models.Database;
+using BurgerPlace.Models.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,6 @@ namespace BurgerPlace.Controllers
         }
         private static bool IsValidUser(LoginRequest request)
         {
-            // This is where you would look the user up in the database.
             using (var context = new BurgerPlaceContext())
             {
                 var t = context.Users.Where(i => i.Username == request.username && i.Password == request.password).FirstOrDefault();
@@ -83,7 +83,6 @@ namespace BurgerPlace.Controllers
                 return BadRequest("Invalid username and/or password.");
             }
         }
-        public record LoginRequest(string username, string password);
 
         [HttpGet]
         [Authorize]

@@ -1,8 +1,7 @@
-﻿using BurgerPlace.Models.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace BurgerPlace.Models
+namespace BurgerPlace.Models.Database
 {
     /// <summary>
     /// Table for storing users
@@ -17,6 +16,7 @@ namespace BurgerPlace.Models
         public uint? RestaurantId { get; set; }
         public bool IsRoot { get; set; }
         public DateTime LastLogin { get; set; }
+        public string Email { get; set; } = null!;
 
         public virtual Restaurant? Restaurant { get; set; }
     }

@@ -1,3 +1,4 @@
+using BurgerPlace.Mapper_Profiles;
 using BurgerPlace.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +33,7 @@ namespace BurgerPlace
                     ClockSkew = TimeSpan.FromMinutes(5)
                 };
             });
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // Adding Swagger
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -68,6 +69,8 @@ namespace BurgerPlace
                 }
                 });
             });
+            // Adding AutoMapper
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
             var app = builder.Build();
 
