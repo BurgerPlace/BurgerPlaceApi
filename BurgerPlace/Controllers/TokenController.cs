@@ -4,6 +4,7 @@ using BurgerPlace.Models.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,6 +16,13 @@ namespace BurgerPlace.Controllers
     [ApiController]
     public class TokenController : ControllerBase
     {
+        IConfiguration _config;
+        private string secret { get; set; }
+        public TokenController(IConfiguration config)
+        {
+            _config = config;
+            secret = _config.GetValue<string>("Secrets:JWTSecret");
+        }
         private static bool IsValidUser(LoginRequest request)
         {
             // This is where you would look the user up in the database.
@@ -35,7 +43,7 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        private static string GenerateToken(User user)
+        private string GenerateToken(User user)
         {
             string role = "user";
             if (user.IsRoot) role = "root";
@@ -51,8 +59,7 @@ namespace BurgerPlace.Controllers
             var header = new JwtHeader(
                 new SigningCredentials(
                     new SymmetricSecurityKey(
-                        // TODO: getting this key from config
-                        Encoding.UTF8.GetBytes("ThisKeyMustBeAtLeast16Characters")),
+                        Encoding.UTF8.GetBytes(secret)),
                         SecurityAlgorithms.HmacSha256));
 
             var payload = new JwtPayload(claims);

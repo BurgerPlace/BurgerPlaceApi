@@ -2,6 +2,7 @@ using BurgerPlace.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net;
 using System.Text;
 
 namespace BurgerPlace
@@ -83,6 +84,21 @@ namespace BurgerPlace
                 configurePolicy.AllowAnyHeader();
                 configurePolicy.AllowAnyMethod();
                 configurePolicy.AllowAnyOrigin();
+            });
+
+            // Setup custom unauthorized message
+
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    await context.Response.WriteAsJsonAsync(new
+                    {
+                        message = "Unauthorized"
+                    });
+                }
             });
 
             app.UseHttpsRedirection();
