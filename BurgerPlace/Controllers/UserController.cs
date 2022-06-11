@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using BurgerPlace.Models.Database;
 using BurgerPlace.Models.Request;
-using System.Security.Cryptography;
 using BurgerPlace.Context;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using static BurgerPlace.Models.Response.LoginResponse;
+using Microsoft.AspNetCore.Authorization;
+using BurgerPlace.Models.Response;
 
 namespace BurgerPlace.Controllers
 {
@@ -15,14 +16,12 @@ namespace BurgerPlace.Controllers
     public class UserController : ControllerBase
     {
         private IConfiguration _configuration;
-        private string _salt;
         private string _secret;
         private IMapper _mapper;
         public UserController(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
             _mapper = mapper;
-            _salt = configuration.GetValue<string>("Secrets:PasswordSalt");
             _secret = configuration.GetValue<string>("Secrets:JWTSecret");
         }
 
@@ -86,6 +85,64 @@ namespace BurgerPlace.Controllers
                 {
                     return BadRequest(new LoginWrongUsername());
                 }
+            }
+        }
+
+        // Rising Privileges
+        [Authorize(Roles = UserRoles.Root)]
+        [HttpPut("makeRoot")]
+
+        public async Task<IActionResult> MakeUserRoot([FromBody] MakeUserRootRequest request)
+        {
+            using (var context = new BurgerPlaceContext())
+            {
+                // Finding proper user
+                var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return BadRequest(new LoginWrongUsername());
+                }
+                user.IsRoot = true;
+                await context.SaveChangesAsync();
+                return Ok(new MakeUserRootResponse(user.Username));
+            }
+        }
+
+        // Lowering Privileges
+        [Authorize(Roles = UserRoles.Root)]
+        [HttpPut("removeRoot")]
+        public async Task<IActionResult> MakeUserUser([FromBody] MakeUserRootRequest request)
+        {
+            using (var context = new BurgerPlaceContext())
+            {
+                // Finding proper user
+                var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return BadRequest(new LoginWrongUsername());
+                }
+                user.IsRoot = false;
+                await context.SaveChangesAsync();
+                return Ok(new MakeUserRootResponse(user.Username));
+            }
+        }
+
+        // Removing user from system
+        [Authorize(Roles = UserRoles.Root)]
+        [HttpDelete("user")]
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUser request)
+        {
+            using (var context = new BurgerPlaceContext())
+            {
+                // Finding proper user
+                var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return BadRequest(new LoginWrongUsername());
+                }
+                context.Remove(user);
+                await context.SaveChangesAsync();
+                return Ok(new MakeUserRootResponse(user.Username));
             }
         }
     }

@@ -19,7 +19,7 @@ namespace BurgerPlaceTests
             // Arrange
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.email = Faker.StringFaker.AlphaNumeric(8)+"@gmail.com";
-            registerRequest.name = "John";
+            registerRequest.name = "JohnUnitTest1";
             registerRequest.surname = "John";
             // generate username
             registerRequest.username = Faker.StringFaker.AlphaNumeric(10);
@@ -41,7 +41,7 @@ namespace BurgerPlaceTests
             // Arrange
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.email = "example@example.org";
-            registerRequest.name = "John";
+            registerRequest.name = "JohnUnitTest2";
             registerRequest.surname = "John";
             // generate username
             registerRequest.username = Faker.StringFaker.AlphaNumeric(10);
@@ -72,7 +72,7 @@ namespace BurgerPlaceTests
             var password = Faker.StringFaker.AlphaNumeric(8);
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.email = Faker.StringFaker.AlphaNumeric(8) + "@gmail.com";
-            registerRequest.name = "Johny";
+            registerRequest.name = "JohnUnitTest3";
             registerRequest.surname = "Test";
             registerRequest.username = username;
             registerRequest.password = password;

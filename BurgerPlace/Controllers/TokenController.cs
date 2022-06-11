@@ -52,6 +52,7 @@ namespace BurgerPlace.Controllers
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Role, role),
+            new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
             new Claim(JwtRegisteredClaimNames.Exp,
             new DateTimeOffset(DateTime.Now)
                    .ToUnixTimeSeconds().ToString())
