@@ -1,10 +1,13 @@
+using BurgerPlace.Context;
+
 namespace BurgerPlaceTests
 {
-    public class UserRegisterTests : IClassFixture<WebApplicationFactory<BurgerPlace.Program>>
+    public class UserRegisterAndLoginApiTests : IClassFixture<WebApplicationFactory<BurgerPlace.Program>>
     {
         readonly HttpClient _client;
+        private BurgerPlaceContext context = new BurgerPlaceContext();
 
-        public UserRegisterTests(WebApplicationFactory<BurgerPlace.Program> application)
+        public UserRegisterAndLoginApiTests(WebApplicationFactory<BurgerPlace.Program> application)
         {
             _client = application.CreateClient();
         }
@@ -25,7 +28,10 @@ namespace BurgerPlaceTests
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             // Act
             var response = await _client.PostAsync("api/User/register", data);
-
+            // Cleaning
+            var user = await context.Users.Where(i => i.Username == registerRequest.username).FirstOrDefaultAsync();
+            if (user != null) context.Users.Remove(user);
+            context.SaveChanges();
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);
         }
@@ -50,6 +56,10 @@ namespace BurgerPlaceTests
             json = JsonConvert.SerializeObject(registerRequest);
             data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("api/User/register", data);
+            // Cleaning
+            var user = await context.Users.Where(i => i.Username == registerRequest.username).FirstOrDefaultAsync();
+            if (user != null) context.Users.Remove(user);
+            context.SaveChanges();
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.BadRequest);
         }
@@ -79,6 +89,10 @@ namespace BurgerPlaceTests
             json = JsonConvert.SerializeObject(loginRequest);
             data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("api/User/login", data);
+            // Cleaning
+            var user = await context.Users.Where(i => i.Username == registerRequest.username).FirstOrDefaultAsync();
+            if (user != null) context.Users.Remove(user);
+            context.SaveChanges();
 
             // Assert
             Assert.True(response.StatusCode == HttpStatusCode.OK);

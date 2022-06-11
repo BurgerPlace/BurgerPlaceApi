@@ -10,3 +10,4 @@ global using Microsoft.AspNetCore.Mvc.Testing;
 global using Newtonsoft.Json;
 global using System.Text;
 global using System.Net;
+global using Microsoft.EntityFrameworkCore;
