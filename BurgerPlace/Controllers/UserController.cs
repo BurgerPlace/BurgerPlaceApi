@@ -29,7 +29,7 @@ namespace BurgerPlace.Controllers
 
         // Registering new user
         [HttpPost("register")]
-        [ProducesResponseType(typeof(SuccessfullyCreatedNewUserResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SuccessfullyCreatedNewUserResponse), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(DuplicatedUsernameOrEmailResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterRequest registerRequest)
         {
@@ -49,7 +49,7 @@ namespace BurgerPlace.Controllers
                 userToCreate.Password = passwordHashed;
                 await context.AddAsync(userToCreate);
                 await context.SaveChangesAsync();
-                return Ok(new SuccessfullyCreatedNewUserResponse());
+                return Created(new SuccessfullyCreatedNewUserResponse());
             }
         }
 

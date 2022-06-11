@@ -33,7 +33,7 @@ namespace BurgerPlaceTests
             if (user != null) context.Users.Remove(user);
             context.SaveChanges();
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.OK);
+            Assert.True(response.StatusCode == HttpStatusCode.Created);
         }
         [Fact]
         public async void Should_Fail_RegisterOnEmailInDB()
