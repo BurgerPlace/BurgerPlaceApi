@@ -9,15 +9,11 @@
                 token = _token;
             }
             public string message { get; set; } = "Successfully logged in";
-            public string token { get; set; }
+            public string token { get; set; } = null!;
         }
-        public class LoginWrongPassword
+        public class LoginWrongData
         {
-            public static string message { get; set; } = "Wrong password";
-        }
-        public class LoginWrongUsername
-        {
-            public static string message { get; set; } = "Wrong username";
+            public string message { get; set; } = "Wrong username and/or password";
         }
     }
 }

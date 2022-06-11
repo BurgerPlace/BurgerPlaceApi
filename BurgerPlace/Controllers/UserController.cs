@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using static BurgerPlace.Models.Response.LoginResponse;
 using Microsoft.AspNetCore.Authorization;
 using BurgerPlace.Models.Response;
+using System.Net;
+using static BurgerPlace.Models.Response.RegisterResponse;
 
 namespace BurgerPlace.Controllers
 {
@@ -27,6 +29,8 @@ namespace BurgerPlace.Controllers
 
         // Registering new user
         [HttpPost("register")]
+        [ProducesResponseType(typeof(SuccessfullyCreatedNewUserResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DuplicatedUsernameOrEmailResponse), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RegisterUser([FromBody] RegisterRequest registerRequest)
         {
             using (var context = new BurgerPlaceContext())
@@ -35,10 +39,7 @@ namespace BurgerPlace.Controllers
                 var user = await context.Users.Where(i => i.Username == registerRequest.username || i.Email == registerRequest.email).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    return BadRequest(new
-                    {
-                        message = "User with this username or email already exists"
-                    });
+                    return BadRequest(new DuplicatedUsernameOrEmailResponse());
                 }
                 // Creating new user based on given informations
                 User userToCreate = _mapper.Map<RegisterRequest, User>(registerRequest);
@@ -48,15 +49,14 @@ namespace BurgerPlace.Controllers
                 userToCreate.Password = passwordHashed;
                 await context.AddAsync(userToCreate);
                 await context.SaveChangesAsync();
-                return Ok(new
-                {
-                    message = "Successfully created new user account"
-                });
+                return Ok(new SuccessfullyCreatedNewUserResponse());
             }
         }
 
         // Login user
         [HttpPost("login")]
+        [ProducesResponseType(typeof(LoginSuccessResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(LoginWrongData), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
         {
             using (var context = new BurgerPlaceContext())
@@ -78,12 +78,12 @@ namespace BurgerPlace.Controllers
                     }
                     else
                     {
-                        return BadRequest(new LoginWrongPassword());
+                        return BadRequest(new LoginWrongData());
                     }
                 }
                 else
                 {
-                    return BadRequest(new LoginWrongUsername());
+                    return BadRequest(new LoginWrongData());
                 }
             }
         }
@@ -91,6 +91,9 @@ namespace BurgerPlace.Controllers
         // Rising Privileges
         [Authorize(Roles = UserRoles.Root)]
         [HttpPut("makeRoot")]
+        [ProducesResponseType(typeof(MakeUserRootResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(InvalidUserResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
 
         public async Task<IActionResult> MakeUserRoot([FromBody] MakeUserRootRequest request)
         {
@@ -100,7 +103,7 @@ namespace BurgerPlace.Controllers
                 var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return BadRequest(new LoginWrongUsername());
+                    return BadRequest(new InvalidUserResponse());
                 }
                 user.IsRoot = true;
                 await context.SaveChangesAsync();
@@ -111,6 +114,9 @@ namespace BurgerPlace.Controllers
         // Lowering Privileges
         [Authorize(Roles = UserRoles.Root)]
         [HttpPut("removeRoot")]
+        [ProducesResponseType(typeof(MakeUserRootResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(InvalidUserResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> MakeUserUser([FromBody] MakeUserRootRequest request)
         {
             using (var context = new BurgerPlaceContext())
@@ -119,7 +125,7 @@ namespace BurgerPlace.Controllers
                 var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return BadRequest(new LoginWrongUsername());
+                    return BadRequest(new InvalidUserResponse());
                 }
                 user.IsRoot = false;
                 await context.SaveChangesAsync();
@@ -130,6 +136,9 @@ namespace BurgerPlace.Controllers
         // Removing user from system
         [Authorize(Roles = UserRoles.Root)]
         [HttpDelete("user")]
+        [ProducesResponseType(typeof(DeleteUserResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(InvalidUserResponse), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public async Task<IActionResult> DeleteUser([FromBody] DeleteUser request)
         {
             using (var context = new BurgerPlaceContext())
@@ -138,11 +147,11 @@ namespace BurgerPlace.Controllers
                 var user = await context.Users.Where(i => i.Username == request.username).FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return BadRequest(new LoginWrongUsername());
+                    return BadRequest(new InvalidUserResponse());
                 }
                 context.Remove(user);
                 await context.SaveChangesAsync();
-                return Ok(new MakeUserRootResponse(user.Username));
+                return Ok(new DeleteUserResponse(user.Username));
             }
         }
     }
