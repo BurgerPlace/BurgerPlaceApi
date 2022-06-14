@@ -17,6 +17,8 @@ namespace BurgerPlace.Models.Database
         public uint Id { get; set; }
         public bool Available { get; set; }
         public decimal Price { get; set; }
+        public string? Name { get; set; }
+        public string? Comment { get; set; }
 
         public virtual ICollection<SetCategory> SetCategories { get; set; }
         public virtual ICollection<SetProduct> SetProducts { get; set; }
