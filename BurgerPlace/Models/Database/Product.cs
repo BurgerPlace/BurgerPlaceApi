@@ -22,10 +22,15 @@ namespace BurgerPlace.Models.Database
         public bool Available { get; set; }
         public decimal Price { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Photo? Photo { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<SetProduct> SetProducts { get; set; }
     }
 }

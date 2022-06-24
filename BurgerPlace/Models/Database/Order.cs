@@ -23,8 +23,11 @@ namespace BurgerPlace.Models.Database
         public string Surname { get; set; } = null!;
         public decimal Price { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Address? Address { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Restaurant Restaurant { get; set; } = null!;
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

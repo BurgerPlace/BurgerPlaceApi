@@ -18,8 +18,11 @@ namespace BurgerPlace.Models.Database
         public string Name { get; set; } = null!;
         public uint? Address { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Address? AddressNavigation { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace BurgerPlace.Models.Database
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
     }
 }

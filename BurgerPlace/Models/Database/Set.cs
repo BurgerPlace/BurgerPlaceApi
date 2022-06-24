@@ -20,7 +20,9 @@ namespace BurgerPlace.Models.Database
         public string? Name { get; set; }
         public string? Comment { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<SetCategory> SetCategories { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<SetProduct> SetProducts { get; set; }
     }
 }
