@@ -16,6 +16,7 @@ namespace BurgerPlace.Models.Database
         public uint Id { get; set; }
         public string Path { get; set; } = null!;
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
     }
 }

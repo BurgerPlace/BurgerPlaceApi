@@ -12,7 +12,9 @@ namespace BurgerPlace.Models.Database
         public uint? SetId { get; set; }
         public uint? ProductId { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Product? Product { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Set? Set { get; set; }
     }
 }

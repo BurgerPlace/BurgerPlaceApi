@@ -20,7 +20,9 @@ namespace BurgerPlace.Models.Database
         public string StreetNumber { get; set; } = null!;
         public string? FlatNumber { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Restaurant> Restaurants { get; set; }
     }
 }

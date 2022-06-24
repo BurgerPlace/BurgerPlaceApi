@@ -104,6 +104,8 @@ namespace BurgerPlace
                 }
             });
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

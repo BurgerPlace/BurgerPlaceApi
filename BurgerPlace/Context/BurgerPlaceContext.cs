@@ -78,6 +78,9 @@ namespace BurgerPlace.Context
 
                 entity.HasComment("Table for storing categories");
 
+                entity.HasIndex(e => e.Name, "name")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
@@ -92,6 +95,9 @@ namespace BurgerPlace.Context
                 entity.ToTable("ingredient");
 
                 entity.HasComment("Table for storing ingredients");
+
+                entity.HasIndex(e => e.Name, "name")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnType("int(10) unsigned")
@@ -216,6 +222,9 @@ namespace BurgerPlace.Context
                 entity.HasComment("Table that will store products and all informations connected with it");
 
                 entity.HasIndex(e => e.PhotoId, "FK_product_photo");
+
+                entity.HasIndex(e => e.Name, "name")
+                    .IsUnique();
 
                 entity.Property(e => e.Id)
                     .HasColumnType("int(10) unsigned")
@@ -345,6 +354,14 @@ namespace BurgerPlace.Context
 
                 entity.Property(e => e.Available).HasColumnName("available");
 
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(50)
+                    .HasColumnName("comment");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(32)
+                    .HasColumnName("name");
+
                 entity.Property(e => e.Price)
                     .HasColumnType("decimal(8,2) unsigned")
                     .HasColumnName("price");
@@ -426,7 +443,6 @@ namespace BurgerPlace.Context
 
                 entity.Property(e => e.Id)
                     .HasColumnType("int(10) unsigned")
-                    .ValueGeneratedNever()
                     .HasColumnName("id");
 
                 entity.Property(e => e.Email)
@@ -445,7 +461,7 @@ namespace BurgerPlace.Context
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(32)
+                    .HasMaxLength(128)
                     .HasColumnName("password");
 
                 entity.Property(e => e.RestaurantId)

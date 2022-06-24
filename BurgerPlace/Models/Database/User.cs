@@ -18,6 +18,7 @@ namespace BurgerPlace.Models.Database
         public DateTime LastLogin { get; set; }
         public string Email { get; set; } = null!;
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual Restaurant? Restaurant { get; set; }
     }
 }

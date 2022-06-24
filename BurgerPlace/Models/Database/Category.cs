@@ -17,7 +17,9 @@ namespace BurgerPlace.Models.Database
         public uint Id { get; set; }
         public string Name { get; set; } = null!;
 
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<ProductCategory> ProductCategories { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<SetCategory> SetCategories { get; set; }
     }
 }
