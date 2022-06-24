@@ -33,7 +33,7 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        [HttpPost("update/{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateCategory([FromBody] CreateCategory createCategory, int id)
