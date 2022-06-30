@@ -22,6 +22,12 @@ namespace BurgerPlace.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets all <see cref="Category">Categories</see> and maps it to list
+        /// </summary>
+        /// <returns>
+        /// List of <see cref="CategoryMapped">Categories</see> 
+        /// </returns>
         [HttpGet()]
         public async Task<IActionResult> GetCategories()
         {
@@ -33,6 +39,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates new <see cref="Category"></see>
+        /// </summary>
+        /// <param name="createCategory"></param>
+        /// <returns></returns>
         [HttpPost()]
         [ProducesResponseType(typeof(Duplicated), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Created), (int)HttpStatusCode.OK)]
@@ -52,6 +63,12 @@ namespace BurgerPlace.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates <see cref="Category"></see> by it's Id
+        /// </summary>
+        /// <param name="createCategory">Model of new <see cref="Category"/></param>
+        /// <param name="id">Id of <see cref="Category"/> we want to update</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Updated), (int)HttpStatusCode.OK)]
@@ -70,7 +87,11 @@ namespace BurgerPlace.Controllers
                 return Ok(new CommonResponse.Updated());
             }
         }
-
+        /// <summary>
+        /// Removing <see cref="Category"/> by it's Id
+        /// </summary>
+        /// <param name="id">Id of <see cref="Category"/> we want to remove</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(RemovedName), (int)HttpStatusCode.OK)]

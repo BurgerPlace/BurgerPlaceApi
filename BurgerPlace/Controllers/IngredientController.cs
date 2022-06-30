@@ -9,6 +9,11 @@ namespace BurgerPlace.Controllers
     [ApiController]
     public class IngredientController : ControllerBase
     {
+        /// <summary>
+        /// Creates new <see cref="Ingredient"></see>
+        /// </summary>
+        /// <param name="ingredient"></param>
+        /// <returns></returns>
         [HttpPost()]
         [ProducesResponseType(typeof(Duplicated), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Created), (int)HttpStatusCode.OK)]
@@ -33,6 +38,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
+        /// <summary>
+        /// Removing <see cref="Ingredient">Ingredient</see> by it's Id
+        /// </summary>
+        /// <param name="id">Id of <see cref="Ingredient">Ingredient</see> we want to remove</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(RemovedName), (int)HttpStatusCode.OK)]
@@ -54,6 +64,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates <see cref="Ingredient">Ingredient</see> by it's Id
+        /// </summary>
+        /// <param name="id">Id of <see cref="Ingredient">Ingredient</see> we want to update</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Updated), (int)HttpStatusCode.OK)]
