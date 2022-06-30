@@ -27,7 +27,11 @@ namespace BurgerPlace.Controllers
             _secret = configuration.GetValue<string>("Secrets:JWTSecret");
         }
 
-        // Registering new user
+        /// <summary>
+        /// Registers a new User and adds it to database
+        /// </summary>
+        /// <param name="registerRequest">Model of User which we want to register</param>
+        /// <returns></returns>
         [HttpPost("register")]
         [ProducesResponseType(typeof(SuccessfullyCreatedNewUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(DuplicatedUsernameOrEmailResponse), (int)HttpStatusCode.BadRequest)]
@@ -53,7 +57,13 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        // Login user
+        /// <summary>
+        /// Provides User a JWT token if correct credentials 
+        /// </summary>
+        /// <param name="loginRequest">Login model</param>
+        /// <returns>
+        /// JWT token which will allow for further authentication
+        /// </returns>
         [HttpPost("login")]
         [ProducesResponseType(typeof(LoginSuccessResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(LoginWrongData), (int)HttpStatusCode.BadRequest)]
@@ -71,7 +81,7 @@ namespace BurgerPlace.Controllers
                         // Generate token
                         var token = TokenController.GenerateToken(t, _secret);
                         // Add timestamp to db
-                        t.LastLogin = DateTime.Now;
+                        t.LastLogin = DateTime.UtcNow;
                         await context.SaveChangesAsync();
                         // after generation return
                         return Ok(new LoginSuccessResponse(token));
@@ -88,7 +98,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        // Rising Privileges
+        /// <summary>
+        /// Rises privileges of User specified in request to root
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize(Roles = UserRoles.Root)]
         [HttpPut("makeRoot")]
         [ProducesResponseType(typeof(MakeUserRootResponse), (int)HttpStatusCode.OK)]
@@ -111,7 +125,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        // Lowering Privileges
+        /// <summary>
+        /// Lowers privileges of User specified in request to user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize(Roles = UserRoles.Root)]
         [HttpPut("removeRoot")]
         [ProducesResponseType(typeof(MakeUserRootResponse), (int)HttpStatusCode.OK)]
@@ -133,7 +151,11 @@ namespace BurgerPlace.Controllers
             }
         }
 
-        // Removing user from system
+        /// <summary>
+        /// Removes User from database
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize(Roles = UserRoles.Root)]
         [HttpDelete("user")]
         [ProducesResponseType(typeof(DeleteUserResponse), (int)HttpStatusCode.OK)]

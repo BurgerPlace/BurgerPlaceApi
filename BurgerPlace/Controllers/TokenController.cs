@@ -23,8 +23,15 @@ namespace BurgerPlace.Controllers
         {
             _config = config;
             _secret = _config.GetValue<string>("Secrets:JWTSecret");
-        }        
+        }
 
+        /// <summary>
+        /// Checking if <see cref="User">User</see> has valid credentials
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>
+        /// Boolean value, representing if user is valid
+        /// </returns>
         private static bool IsValidUser(LoginRequest request)
         {
             using (var context = new BurgerPlaceContext())
@@ -35,15 +42,27 @@ namespace BurgerPlace.Controllers
             }
         }
 
+        /// <summary>
+        /// Finds <see cref="User">User</see> with provided credentials
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         private async Task<User> findUser(LoginRequest request)
         {
             using (var context = new BurgerPlaceContext())
             {
-                var t = await context.Users.Where(i => i.Username == request.username && i.Password == request.password).FirstAsync();
-                return t;
+                var user = await context.Users.Where(i => i.Username == request.username && i.Password == request.password).FirstAsync();
+                return user;
             }
         }
 
+        /// <summary>
+        /// Generates <see href="https://jwt.io">JWT Token</see> for provided <see cref="User">User</see>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <see href="https://jwt.io">JWT Token</see>
+        /// </returns>
         private string GenerateToken(User user)
         {
             string role = "user";
@@ -71,7 +90,13 @@ namespace BurgerPlace.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        // static variety of token
+        /// <summary>
+        /// Generates <see href="https://jwt.io">JWT Token</see> for provided <see cref="User">User</see>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// <see href="https://jwt.io">JWT Token</see>
+        /// </returns>
         public static string GenerateToken(User user, string _secret)
         {
             string role = "user";
@@ -98,6 +123,13 @@ namespace BurgerPlace.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        /// <summary>
+        /// Allows for manually generating <see href="https://jwt.io">JWT Tokens</see> for <see cref="User">User</see>
+        /// </summary>
+        /// <param name="loginRequest"></param>
+        /// <returns>
+        /// <see href="https://jwt.io">JWT Token</see>
+        /// </returns>
         [HttpPost]
         public IActionResult GetToken(LoginRequest loginRequest)
         {
@@ -112,7 +144,10 @@ namespace BurgerPlace.Controllers
                 return BadRequest("Invalid username and/or password.");
             }
         }
-
+        /// <summary>
+        /// Allows for checking if <see href="https://jwt.io">JWT Token</see> and if <see cref="User">User</see> is authorized
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public IActionResult VerifyToken()
