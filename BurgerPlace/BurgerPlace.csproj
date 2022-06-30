@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Request\Categories\" />
+    <Folder Include="Models\Request\Products\" />
+    <Folder Include="Models\Response\Ingredients\" />
+    <Folder Include="Models\Response\Products\" />
     <Folder Include="wwwroot\Photos\" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
-﻿using BurgerPlace.Models.Request;
-using BurgerPlace.Models.Response;
+﻿using BurgerPlace.Models.Request.Ingredients;
+using BurgerPlace.Models.Response.Other;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerPlace.Controllers

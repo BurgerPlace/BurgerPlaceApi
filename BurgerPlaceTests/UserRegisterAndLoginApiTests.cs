@@ -1,4 +1,5 @@
 using BurgerPlace.Context;
+using BurgerPlace.Models.Request.Users;
 
 namespace BurgerPlaceTests
 {

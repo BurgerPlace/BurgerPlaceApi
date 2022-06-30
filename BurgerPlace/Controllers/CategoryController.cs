@@ -1,11 +1,13 @@
-﻿using BurgerPlace.Context;
+﻿using AutoMapper;
+using BurgerPlace.Context;
 using BurgerPlace.Models.Database;
-using BurgerPlace.Models.Request;
-using BurgerPlace.Models.Response;
+using BurgerPlace.Models.Request.Ingredients;
+using BurgerPlace.Models.Response.Categories;
+using BurgerPlace.Models.Response.Other;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static BurgerPlace.Models.Response.CommonResponse;
+using static BurgerPlace.Models.Response.Other.CommonResponse;
 
 namespace BurgerPlace.Controllers
 {
@@ -14,6 +16,23 @@ namespace BurgerPlace.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        private IMapper _mapper;
+        public CategoryController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetCategories()
+        {
+            using (var context = new BurgerPlaceContext())
+            {
+                var categories = await context.Categories.ToListAsync();
+                var mapped = _mapper.Map<List<CategoryMapped>>(categories);
+                return Ok(mapped);
+            }
+        }
+
         [HttpPost()]
         [ProducesResponseType(typeof(Duplicated), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Created), (int)HttpStatusCode.OK)]

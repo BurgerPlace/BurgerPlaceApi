@@ -1,6 +1,6 @@
-﻿namespace BurgerPlace.Models.Request
+﻿namespace BurgerPlace.Models.Request.Users
 {
-    public class MakeUserRootRequest
+    public class DeleteUser
     {
         [Required]
         public string username { get; set; } = null!;

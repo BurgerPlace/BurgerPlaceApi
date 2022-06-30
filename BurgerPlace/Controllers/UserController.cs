@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BurgerPlace.Models.Database;
-using BurgerPlace.Models.Request;
 using BurgerPlace.Context;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using static BurgerPlace.Models.Response.LoginResponse;
+using static BurgerPlace.Models.Response.Users.LoginResponse;
 using Microsoft.AspNetCore.Authorization;
-using BurgerPlace.Models.Response;
 using System.Net;
-using static BurgerPlace.Models.Response.RegisterResponse;
+using static BurgerPlace.Models.Response.Users.RegisterResponse;
+using BurgerPlace.Models.Request.Users;
+using BurgerPlace.Models.Response.Users;
 
 namespace BurgerPlace.Controllers
 {

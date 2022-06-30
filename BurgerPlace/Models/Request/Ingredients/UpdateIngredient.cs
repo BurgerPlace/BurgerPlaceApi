@@ -1,4 +1,4 @@
-﻿namespace BurgerPlace.Models.Request
+﻿namespace BurgerPlace.Models.Request.Ingredients
 {
     public class UpdateIngredient
     {

@@ -1,7 +1,7 @@
 ﻿using BurgerPlace.Context;
 using BurgerPlace.Models;
 using BurgerPlace.Models.Database;
-using BurgerPlace.Models.Request;
+using BurgerPlace.Models.Request.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

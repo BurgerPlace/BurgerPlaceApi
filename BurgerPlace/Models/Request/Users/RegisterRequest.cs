@@ -1,5 +1,4 @@
-﻿
-namespace BurgerPlace.Models.Request
+﻿namespace BurgerPlace.Models.Request.Users
 {
     public class RegisterRequest
     {

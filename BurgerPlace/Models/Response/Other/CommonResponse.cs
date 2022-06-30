@@ -1,4 +1,4 @@
-﻿namespace BurgerPlace.Models.Response
+﻿namespace BurgerPlace.Models.Response.Other
 {
     public class CommonResponse
     {
