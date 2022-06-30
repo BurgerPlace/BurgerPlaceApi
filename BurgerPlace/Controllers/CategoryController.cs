@@ -16,7 +16,7 @@ namespace BurgerPlace.Controllers
     {
         [HttpPost()]
         [ProducesResponseType(typeof(Duplicated), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Created), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategory createCategory)
         {
             using (var context = new BurgerPlaceContext())
@@ -29,13 +29,13 @@ namespace BurgerPlace.Controllers
                 category.Name = createCategory.Name;
                 await context.Categories.AddAsync(category);
                 await context.SaveChangesAsync();
-                return Ok(category);
+                return Ok(new CommonResponse.Created());
             }
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Updated), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateCategory([FromBody] CreateCategory createCategory, int id)
         {
             using (var context = new BurgerPlaceContext())
@@ -48,13 +48,13 @@ namespace BurgerPlace.Controllers
 
                 category.Name = createCategory.Name;
                 await context.SaveChangesAsync();
-                return Ok(category);
+                return Ok(new CommonResponse.Updated());
             }
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(NotFoundWithThisId), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Category), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(RemovedName), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             using (var context = new BurgerPlaceContext())
@@ -67,7 +67,7 @@ namespace BurgerPlace.Controllers
 
                 context.Remove(category);
                 await context.SaveChangesAsync();
-                return Ok(category);
+                return Ok(new CommonResponse.RemovedName(category.Name));
             }
         }
 
