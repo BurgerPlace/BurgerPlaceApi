@@ -4,5 +4,10 @@ global using BurgerPlace.Context;
 global using BurgerPlace.Models.Database;
 global using Microsoft.EntityFrameworkCore;
 global using System.Net;
+global using Microsoft.AspNetCore.Authorization;
+global using static BurgerPlace.Models.Response.Other.CommonResponse;
+global using BurgerPlace.Models.Request;
+global using BurgerPlace.Models.Response;
+global using Microsoft.AspNetCore.Mvc;
 
 namespace GlobalUsings { }

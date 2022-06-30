@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BurgerPlace.Models.Database;
-using BurgerPlace.Models.Request;
+using BurgerPlace.Models.Request.Users;
+using BurgerPlace.Models.Response.Categories;
 
 namespace BurgerPlace.Mapper_Profiles
 {
@@ -9,6 +10,7 @@ namespace BurgerPlace.Mapper_Profiles
         public AutoMapperProfiles()
         {
             CreateMap<RegisterRequest, User>();
+            CreateMap<Category, CategoryMapped>();
         }
     }
 }
