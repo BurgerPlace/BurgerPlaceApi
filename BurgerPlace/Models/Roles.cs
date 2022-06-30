@@ -3,6 +3,7 @@
     public static class UserRoles
     {
         public const string Root = "root"; 
-        public const string User = "user"; 
+        // Multiple roles due to fact that root should have same privileges as user
+        public const string User = "user,root"; 
     }
 }

@@ -3,12 +3,12 @@ using BurgerPlace.Models.Request.Users;
 
 namespace BurgerPlaceTests
 {
-    public class UserRegisterAndLoginApiTests : IClassFixture<WebApplicationFactory<BurgerPlace.Program>>
+    public class UserIntegrationTests : IClassFixture<WebApplicationFactory<BurgerPlace.Program>>
     {
         readonly HttpClient _client;
         private BurgerPlaceContext context = new BurgerPlaceContext();
 
-        public UserRegisterAndLoginApiTests(WebApplicationFactory<BurgerPlace.Program> application)
+        public UserIntegrationTests(WebApplicationFactory<BurgerPlace.Program> application)
         {
             _client = application.CreateClient();
         }
@@ -19,7 +19,7 @@ namespace BurgerPlaceTests
         {
             // Arrange
             RegisterRequest registerRequest = new RegisterRequest();
-            registerRequest.email = Faker.StringFaker.AlphaNumeric(8)+"@gmail.com";
+            registerRequest.email = Faker.StringFaker.AlphaNumeric(12)+"@gmail.com";
             registerRequest.name = "JohnUnitTest1";
             registerRequest.surname = "John";
             // generate username
@@ -34,7 +34,7 @@ namespace BurgerPlaceTests
             if (user != null) context.Users.Remove(user);
             context.SaveChanges();
             // Assert
-            Assert.True(response.StatusCode == HttpStatusCode.Created);
+            Assert.True(response.StatusCode == HttpStatusCode.OK);
         }
         [Fact]
         public async void Should_Fail_RegisterOnEmailInDB()
@@ -58,7 +58,7 @@ namespace BurgerPlaceTests
             data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("api/User/register", data);
             // Cleaning
-            var user = await context.Users.Where(i => i.Username == registerRequest.username).FirstOrDefaultAsync();
+            var user = await context.Users.Where(i => i.Name == registerRequest.name).FirstOrDefaultAsync();
             if (user != null) context.Users.Remove(user);
             context.SaveChanges();
             // Assert
